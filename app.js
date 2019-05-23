@@ -1,12 +1,17 @@
 
 // Http library
 const http = require('http');
-
 //Step 1. Import crypto-js/sha256
+const SHA256 = require("crypto-js/sha256");
 
 
-// Http port
-const port = 8080;
+const generateHash = (objectToHash) => {
+    return SHA256(JSON.stringify(objectToHash)).toString();
+};
+
+
+
+
 
 //Mock Data
 var blocks = [];
@@ -21,6 +26,18 @@ blocks.push(block_2);
  */
 //Add your code here
 
+let block2hash = generateHash(blocks[1]);
+
+// Http port
+const port = 9000;
+
+const app = http.createServer(function (request, response) {
+    response.writeHead(200,
+        {"Content-Type": "application/json"}
+    );
+    response.write(JSON.stringify(block2hash));
+    response.end();
+});
 
 
 // Notify console
